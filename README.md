@@ -3,5 +3,5 @@
 Corona SDK Android Game
 
 
-Designed for the discipline : Stage 1
+Designed for the discipline : Supervised  Stage 1
 
