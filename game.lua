@@ -6,7 +6,13 @@ physics.start()
 physics.setGravity( 0, 50 )
 --physics.setDrawMode( "hybrid" )
 
+local dados = require("dados")
+
 local gameStarted = false
+
+local teto = display.newRect(1, display.actualContentHeight- 800, display.contentWidth*3, 1)
+physics.addBody(teto, "static", {friction = 0.1})
+
 
 function backgroundScroller(self,event)
   if self.x < (-self.width + (self.speed*2))   then
@@ -21,6 +27,9 @@ function flyUp(event)
     if gameStarted == false then
        player.bodyType = "dynamic"
        gameStarted = true
+       score.alpha = 1
+       adicionarColunasTimer = timer.performWithDelay (1500, adicionarColunas, -1)
+       andarColunasTimer = timer.performWithDelay (2, andarColunas, -1)
        player:applyForce(0, -600, player.x, player.y)
     else
       player:applyForce(0, -900, player.x, player.y)
@@ -39,8 +48,10 @@ function andarColunas()
   for a = elements.numChildren,1,-1 do
     if(elements[a].x < player.x - 10) then
      if elements[a].scoreAdded == false then
+       dados.score = dados.score + 1
+       score.text = dados.score
        elements[a].scoreAdded = true
-      end
+     end
     end
     if (elements[a].x > -100) then
       elements[a].x = elements [a].x - groundSpeed
@@ -51,21 +62,33 @@ function andarColunas()
 end
 
 
-function adicionarColunas()
+function adicionarColunas() 
   
-  height = math.random (display.contentCenterY - 100, display.contentCenterY + 100)
+  height = math.random (display.contentCenterY  , display.contentCenterY )
+  topColumn = math.random (50, 100) 
 
-  topColumn = display.newImageRect('images/cactu.png',10, - 100)
+  topColumn = display.newImageRect('images/cactu.png', 200 , 200)
   topColumn.anchorX = 0.5
-  topColumn.anchorY = 1
-  topColumn.x = display.contentWidth -100
-  topColumn.y = height - 160
+  topColumn.anchorY = 0
+  topColumn.x = display.contentWidth -1.5
+  topColumn.y = height - 20
   topColumn.scoreAdded = false
   physics.addBody(topColumn, "static", {density=1,bounce=0.1, friction=0.2})
   elements:insert(topColumn)
-end
+
+
+  downColumn = display.newImageRect('images/cactudown.png', 150 , 150)
+  downColumn.anchorX = -0.5
+  downColumn.anchorY =  10
+  downColumn.x = display.contentWidth + 100
+  downColumn.y = height - 210
+  physics.addBody(downColumn, "static", {density=1,bounce=0.1, friction=0.2})
+  elements:insert(downColumn)
+end 
 
 function scene:create( event )
+
+  dados.score = 0		
   gameStarted = false
   local sceneGroup = self.view
   skySpeed = .2
@@ -75,7 +98,7 @@ function scene:create( event )
   groundSize = display.contentWidth
 
 
-  background1 = display.newImageRect('images/sky_dune001.png', backgroundSize,550)
+  background1 = display.newImageRect('images/sky_dune001.png', display.contentWidth,550)
   background1.anchorX = 0
   background1.anchorY = 1
   background1.x = 1
@@ -83,13 +106,38 @@ function scene:create( event )
   background1.speed = backgroundSpeed
   sceneGroup:insert(background1)
 
-  background2 = display.newImageRect('images/sky_dune001.png',backgroundSize ,550)
+  background2 = display.newImageRect('images/sky_dune001.png',display.contentWidth ,550)
   background2.anchorX = 0
   background2.anchorY = 1
   background2.x = backgroundSize
   background2.y = display.contentHeight - 200
   background2.speed = backgroundSpeed
   sceneGroup:insert(background2)
+
+  elements = display.newGroup()
+  elements.anchorChildren = true
+  elements.anchorX = 0
+  elements.anchorY = 1
+  elements.x = 0
+  elements.y = 0
+  sceneGroup:insert(elements)
+
+  coisa1 = display.newImageRect("images/Skeleton.png", 100, 220 )
+  coisa1.anchorX = 10
+  coisa1.anchorY = 1
+  coisa1.x = 1
+  coisa1.y = 10
+  coisa1.speed = groundSpeed
+  sceneGroup:insert(coisa1)
+
+  coisa2 = display.newImageRect("images/Skeleton.png", 100, 220 )
+  coisa2.anchorX = 10
+  coisa2.anchorY = 1
+  coisa2.x = 1
+  coisa2.y = 10
+  coisa2.speed = groundSpeed
+  sceneGroup:insert(coisa2)
+
 
   ground1 = display.newImageRect("images/ground.png", groundSize, 220 )
   ground1.anchorX = 0
@@ -128,6 +176,10 @@ function scene:create( event )
   player:play()
   sceneGroup:insert(player)
 
+  score = display.newText(dados.score, display.contentCenterX, 90, native.systemFont, 60)
+  score:setFillColor (0,0,0)
+  score.alpha = 0
+  sceneGroup:insert(score)
 
   ground = display.newRect( display.contentCenterX, display.contentHeight -100, backgroundSize, 10 )
   ground.alpha = 0
@@ -156,7 +208,11 @@ function scene:show( event )
     ground2.enterFrame = backgroundScroller
     Runtime:addEventListener("enterFrame", ground2)
 
-     Runtime:addEventListener("touch", flyUp)
+    
+    Runtime:addEventListener("enterFrame", elements)
+
+
+    Runtime:addEventListener("touch", flyUp)
     
    
  end
@@ -176,6 +232,9 @@ function scene:hide( event )
     Runtime:removeEventListener("enterFrame", background1)
     Runtime:removeEventListener("enterFrame", background2)
     Runtime:removeEventListener("collision", onCollision)
+    Runtime:removeEventListener("enterFrame", elements)
+   	timer.cancel(adicionarColunasTimer)
+   	timer.cancel(andarColunasTimer)
    end
 end
 

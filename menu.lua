@@ -14,7 +14,7 @@ local widget = require "widget"
 
 local playBtn
 
-local credBtn
+
 
 local selectSound = audio.loadStream("sounds/crow_cawing.mp3")
 local backgroundMusic = audio.loadStream( "sounds/outdoor_bird_ambience.mp3" )
@@ -45,48 +45,64 @@ function scene:create( event )
   background.x, background.y = 0, - 100
   
 
-  
-
-  local avoaLogo = display.newImage( "images/bt_logo.png" )
-  avoaLogo:scale( 2, 2)
+  local avoaLogo = display.newImage( "images/bt_logo3.png" )
+  avoaLogo:scale( 0.5, 0.5)
   avoaLogo.x = display.contentWidth * 0.50
   avoaLogo.y = 150
-
 
   
   -- create a widget button (which will loads game.lua on release)
   playBtn = widget.newButton{
-    defaultFile="images/bt_play.png",
+    defaultFile="images/bt_play2.png",
     width=300, height=100,
     onRelease = onPlayBtnRelease  
   }
   playBtn.x = display.contentWidth*0.5
-  playBtn.y = display.contentHeight - 350
+  playBtn.y = display.contentHeight - 340
 
   -- create a widget button (which will loads recordes.lua on release)
   recBtn = widget.newButton{
-    defaultFile="images/bt_recordes.png",
+    defaultFile="images/bt_recordes2.png",
     width=254, height=60,
     onRelease = onRecBtnRelease  -- event listener function
   }
   recBtn.x = display.contentWidth*0.5
-  recBtn.y = display.contentHeight - 250
+  recBtn.y = display.contentHeight - 220
 
       -- create a widget button (which will loads sobre.lua on release)
   sobreBtn = widget.newButton{
-    defaultFile="images/bt_sobre.png",
+    defaultFile="images/bt_sobre2.png",
     width=254, height=60,
     onRelease = onSobreBtnRelease  -- event listener function
   }
   sobreBtn.x = display.contentWidth*0.5
-  sobreBtn.y = display.contentHeight - 150
+  sobreBtn.y = display.contentHeight - 120
   
+    volumeBtn = widget.newButton{
+    defaultFile="images/b_Music_prata.png",
+    width=100, height=100,
+    onRelease = onVolumeBtnRelease  -- event listener function
+  }
+  volumeBtn.x = display.contentWidth* 0.10
+  volumeBtn.y = display.contentHeight - 80
+
+  somBtn = widget.newButton{
+    defaultFile="images/b_Sound1_prata.png",
+    width=100, height=100,
+    onRelease = onSomBtnRelease  -- event listener function
+  }
+  somBtn.x = display.contentWidth*  0.20
+  somBtn.y = display.contentHeight - 80
  
+  
   sceneGroup:insert( background )
   sceneGroup:insert( avoaLogo )
   sceneGroup:insert( sobreBtn )
   sceneGroup:insert( playBtn )
+  sceneGroup:insert( volumeBtn )
+  sceneGroup:insert( somBtn )
   sceneGroup:insert( recBtn )
+  --sceneGroup:insert( volumeBtn )
 end
 
 function scene:show( event )

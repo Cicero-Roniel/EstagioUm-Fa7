@@ -1,6 +1,8 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+local dados = require("dados")
+
 function showGameOver()
   fadeTransition = transition.to(gameOver,{time=600, alpha=1,onComplete=showStart})
 end
@@ -75,6 +77,13 @@ function scene:create( event )
   restart.alpha = 0
   sceneGroup:insert(restart)
 
+  scoreText = display.newText(dados.score, display.contentCenterX, 90, native.systemFont, 60)
+  score:setFillColor (0,0,0)
+  score.alpha = 0
+  sceneGroup:insert(scoreText)
+
+  
+
 end
 
 function scene:show( event )
@@ -98,6 +107,8 @@ function scene:hide( event )
    if ( phase == "will" ) then
     restart:removeEventListener("touch", restartGame)
     transition.cancel(fadeTransition)
+    transition.cancel(scoreTransition)
+    transition.cancel(scoreTextTransition)
     transition.cancel(startTransition)
    end
 end
