@@ -4,6 +4,7 @@ local scene = composer.newScene()
 local physics = require "physics"
 physics.start()
 physics.setGravity( 0, 50 )
+
 --physics.setDrawMode( "hybrid" )
 
 local dados = require("dados")
@@ -13,6 +14,27 @@ local gameStarted = false
 local teto = display.newRect(1, display.actualContentHeight- 800, display.contentWidth*3, 1)
 physics.addBody(teto, "static", {friction = 0.1})
 
+
+function preencherVidaPerdida(event)
+	local sceneGroup = scene.view
+	vida1 = display.newImageRect( "Imagens/object.png", 32, 32 )
+  	
+   	vida2 = display.newImageRect( "Imagens/object.png", 32, 32 )
+   	
+   	vida3 = display.newImageRect( "Imagens/object.png", 32, 32 )
+  	
+	
+	if ( quantErros == 1 ) then
+		vida1.x = 50
+		vida1.y = 50
+	elseif ( quantErros == 2 ) then
+		vida2.x = 100
+		vida2.y = 50
+	elseif (quantErros == 3) then
+		vida3.x = 150
+		vida3.y = 50
+	end
+end
 
 function backgroundScroller(self,event)
   if self.x < (-self.width + (self.speed*2))   then
@@ -67,6 +89,8 @@ function adicionarColunas()
   height = math.random (display.contentCenterY  , display.contentCenterY )
   topColumn = math.random (50, 100) 
 
+
+
   topColumn = display.newImageRect('images/cactu.png', 200 , 200)
   topColumn.anchorX = 0.5
   topColumn.anchorY = 0
@@ -96,6 +120,9 @@ function scene:create( event )
   groundSpeed = 10
   backgroundSize = display.contentWidth
   groundSize = display.contentWidth
+  local vida1
+  local vida2
+  local vida3
 
 
   background1 = display.newImageRect('images/sky_dune001.png', display.contentWidth,550)
@@ -155,6 +182,22 @@ function scene:create( event )
   ground2.speed = groundSpeed
   sceneGroup:insert(ground2)
 
+
+  vidaDisponivel1 = display.newImageRect( "images/object-vida.png", 64, 64 )
+  vidaDisponivel1.x = 50
+  vidaDisponivel1.y = 50
+  sceneGroup:insert( vidaDisponivel1 )
+
+  vidaDisponivel2 = display.newImageRect( "images/object-vida.png", 64, 64 )
+  vidaDisponivel2.x = 100
+  vidaDisponivel2.y = 50
+  sceneGroup:insert( vidaDisponivel2 )
+	
+  vidaDisponivel3 = display.newImageRect( "images/object-vida.png", 64, 64 )
+  vidaDisponivel3.x = 150
+  vidaDisponivel3.y = 50
+  sceneGroup:insert( vidaDisponivel3 )
+
     p_options =
     {
       -- Required params
@@ -168,8 +211,8 @@ function scene:create( event )
 
   playerSheet = graphics.newImageSheet( "images/pigeon.png", p_options )
   player = display.newSprite( playerSheet, { name="player", start=1, count=2, time=150 } )
-  player.anchorX = 0.5
-  player.anchorY = 0.5
+  player.anchorX = 0.5 -- SE MUDAR  PARA  0.4 FICA MUITO LOKO
+  player.anchorY = 0.5 -- SE MUDAR  PARA  0.4 FICA MUITO LOKO
   player.x = display.contentCenterX - 100
   player.y = display.contentCenterY
   physics.addBody(player, "static", {density=.1, bounce=0.1, friction=1})
@@ -211,6 +254,7 @@ function scene:show( event )
     
     Runtime:addEventListener("enterFrame", elements)
 
+    Runtime:addEventListener( "enterFrame", preencherVidaPerdida )
 
     Runtime:addEventListener("touch", flyUp)
     
@@ -233,6 +277,7 @@ function scene:hide( event )
     Runtime:removeEventListener("enterFrame", background2)
     Runtime:removeEventListener("collision", onCollision)
     Runtime:removeEventListener("enterFrame", elements)
+    Runtime:removeEventListener( "enterFrame", preencherVidaPerdida )
    	timer.cancel(adicionarColunasTimer)
    	timer.cancel(andarColunasTimer)
    end
