@@ -28,36 +28,35 @@ function scene:create( event )
   groundSpeed = 10
   backgroundSize = display.contentWidth
 
-  background1 = display.newImageRect('images/sky_dune001.png', backgroundSize,550)
+  background1 = display.newImageRect('images/sky_dune001.png', display.contentWidth,550)
   background1.anchorX = 0
   background1.anchorY = 1
-  background1.x = 0
-  background1.y = display.contentHeight - 200
+  background1.x = 1
+  background1.y = display.contentHeight - 190
   background1.speed = backgroundSpeed
   sceneGroup:insert(background1)
 
-  background2 = display.newImageRect('images/sky_dune001.png',backgroundSize ,550)
+  background2 = display.newImageRect('images/sky_dune001.png',display.contentWidth ,550)
   background2.anchorX = 0
   background2.anchorY = 1
   background2.x = backgroundSize
-  background2.y = display.contentHeight - 200
+  background2.y = display.contentHeight - 190
   background2.speed = backgroundSpeed
   sceneGroup:insert(background2)
 
-  ground1 = display.newImageRect("images/ground.png", display.contentWidth, 220 )
+  ground1 = display.newImageRect("images/ground.png", groundSize, 220 )
   ground1.anchorX = 0
   ground1.anchorY = 1
   ground1.x = 0
-  ground1.y = display.contentHeight
+  ground1.y = 750
   ground1.speed = groundSpeed
-  physics.addBody(ground1, "static", {density=.1, bounce=0.1, friction=.2})
   sceneGroup:insert(ground1)
 
-  ground2 = display.newImageRect("images/ground.png", display.contentWidth, 220 )
+  ground2 = display.newImageRect("images/ground.png", groundSize, 220 )
   ground2.anchorX = 0
   ground2.anchorY = 1
   ground2.x = backgroundSize
-  ground2.y = display.contentHeight
+  ground2.y = 750
   ground2.speed = groundSpeed
   sceneGroup:insert(ground2)
 
