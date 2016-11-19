@@ -7,7 +7,7 @@ physics.setGravity( 0, 50 )
 
 --physics.setDrawMode( "hybrid" )
 
-local dados = require("dados")
+local mydata = require("mydata")
 
 local gameStarted = false
 
@@ -70,8 +70,8 @@ function andarColunas()
   for a = elements.numChildren,1,-1 do
     if(elements[a].x < player.x - 10) then
      if elements[a].scoreAdded == false then
-       dados.score = dados.score + 1
-       score.text = dados.score
+       mydata.score = mydata.score + 1
+       score.text = mydata.score
        elements[a].scoreAdded = true
      end
     end
@@ -87,7 +87,7 @@ end
 function adicionarColunas() 
   
   height = math.random (display.contentCenterY  -100, display.contentCenterY  +100)
-  -- topColumn = math.random (50, 100) 
+
 
 
 
@@ -120,7 +120,7 @@ end
 
 function scene:create( event )
 
-  dados.score = 0		
+  mydata.score = 0		
   gameStarted = false
   local sceneGroup = self.view
   skySpeed = .2
@@ -227,10 +227,10 @@ function scene:create( event )
   player:play()
   sceneGroup:insert(player)
 
-  score = display.newText(dados.score, 1200, 600, native.systemFont, 100) -- Está no canto inferior direito
-  --(dados.score, 1200, 40, native.systemFont, 100) - Deixa no canto superior direito
+  score = display.newText( mydata.score, 1200, 40, native.systemFont, 100) -- Está no canto superior direito
+  --(dados.score, 1200, 600, native.systemFont, 100) - Deixa no canto  inferior direito
   --(dados.score, 100, 600, native.systemFont, 100) - Deixa nno canto inferior Esquerdo
-  score:setFillColor (0,0,0)
+  score:setFillColor (1,1,1)
   score.alpha = 0
   sceneGroup:insert(score)
 

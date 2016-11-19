@@ -26,7 +26,7 @@ print( totalTime )
 local backgroundMusicChannel = audio.play( backgroundMusic, { channel=2, loops=-1, fadein=5000 } )
 
 
-local function onPlayBtnRelease()
+local function handlePlayButtonEvent()
   
   -- go to game.lua scene [ joguim rodando]
   audio.play(selectSound, {channel=4, loops = 1})
@@ -36,13 +36,50 @@ local function onPlayBtnRelease()
   return true 
 end
 
+local function handleSettingsButtonEvent( event )
+
+    if ( "ended" == event.phase ) then
+        composer.gotoScene("gamesettings", { effect = "crossFade", time = 333 })
+    end
+end
+
+
+local function handleCreditsButtonEvent( event )
+
+    if ( "ended" == event.phase ) then
+        composer.gotoScene("gamecredits", { effect = "crossFade", time = 333 })
+    end
+end
+
+-- local function handleHelpButtonEvent( event )
+--     if ( "ended" == event.phase ) then
+--         composer.gotoScene("help", { effect = "crossFade", time = 333, isModal = true })
+--     end
+-- end
+
+-- local function handleCreditsButtonEvent( event )
+
+--     if ( "ended" == event.phase ) then
+--         composer.gotoScene("gamecredits", { effect = "crossFade", time = 333 })
+--     end
+-- end
+
+-- local function handleSettingsButtonEvent( event )
+
+--     if ( "ended" == event.phase ) then
+--         composer.gotoScene("gamesettings", { effect = "crossFade", time = 333 })
+--     end
+-- end
+
+
 function scene:create( event )
   local sceneGroup = self.view
 
   local background = display.newImageRect( "images/FirstScreen.jpg", display.contentWidth, 950 )
-  background.anchorX = 0
-  background.anchorY = 0
-  background.x, background.y = 0, - 100
+  -- background.anchorX = 0
+  -- background.anchorY = 0
+  background.x = display.contentCenterX
+  background.y = display.contentCenterY
   
 
   local avoaLogo = display.newImage( "images/bt_logo3.png" )
@@ -55,7 +92,7 @@ function scene:create( event )
   playBtn = widget.newButton{
     defaultFile="images/bt_play2.png",
     width=300, height=100,
-    onRelease = onPlayBtnRelease  
+    onEvent = handlePlayButtonEvent  
   }
   playBtn.x = display.contentWidth*0.5
   playBtn.y = display.contentHeight - 340
@@ -64,44 +101,55 @@ function scene:create( event )
   recBtn = widget.newButton{
     defaultFile="images/bt_recordes2.png",
     width=254, height=60,
-    onRelease = onRecBtnRelease  -- event listener function
+    onEvent = handleSettingsButtonEvent  -- event listener function
   }
   recBtn.x = display.contentWidth*0.5
   recBtn.y = display.contentHeight - 220
 
       -- create a widget button (which will loads sobre.lua on release)
+
   sobreBtn = widget.newButton{
     defaultFile="images/bt_sobre2.png",
     width=254, height=60,
-    onRelease = onSobreBtnRelease  -- event listener function
+    onEvent = handleCreditsButtonEvent  -- event listener function
   }
   sobreBtn.x = display.contentWidth*0.5
   sobreBtn.y = display.contentHeight - 120
-  
-    volumeBtn = widget.newButton{
-    defaultFile="images/b_Music_prata.png",
-    width=100, height=100,
-    onRelease = onVolumeBtnRelease  -- event listener function
-  }
-  volumeBtn.x = display.contentWidth* 0.10
-  volumeBtn.y = display.contentHeight - 80
 
-  somBtn = widget.newButton{
-    defaultFile="images/b_Sound1_prata.png",
-    width=100, height=100,
-    onRelease = onSomBtnRelease  -- event listener function
-  }
-  somBtn.x = display.contentWidth*  0.20
-  somBtn.y = display.contentHeight - 80
+
+  -- sobreBtn = widget.newButton{
+  --   defaultFile="images/bt_sobre2.png",
+  --   width=254, height=60,
+  --   onEvent = onSobreBtnRelease  -- event listener function
+  -- }
+  -- sobreBtn.x = display.contentWidth*0.5
+  -- sobreBtn.y = display.contentHeight - 120
+  
+  --   volumeBtn = widget.newButton{
+  --   defaultFile="images/b_Music_prata.png",
+  --   width=100, height=100,
+  --   onRelease = onVolumeBtnRelease  -- event listener function
+  -- }
+  -- volumeBtn.x = display.contentWidth* 0.10
+  -- volumeBtn.y = display.contentHeight - 80
+
+  -- somBtn = widget.newButton{
+  --   defaultFile="images/b_Sound1_prata.png",
+  --   width=100, height=100,
+  --   onRelease = onSomBtnRelease  -- event listener function
+  -- }
+  -- somBtn.x = display.contentWidth*  0.20
+  -- somBtn.y = display.contentHeight - 80
  
   
   sceneGroup:insert( background )
   sceneGroup:insert( avoaLogo )
   sceneGroup:insert( sobreBtn )
   sceneGroup:insert( playBtn )
-  sceneGroup:insert( volumeBtn )
-  sceneGroup:insert( somBtn )
   sceneGroup:insert( recBtn )
+  -- sceneGroup:insert( volumeBtn )
+  -- sceneGroup:insert( somBtn )
+  
   --sceneGroup:insert( volumeBtn )
 end
 

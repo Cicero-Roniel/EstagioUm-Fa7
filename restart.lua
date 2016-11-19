@@ -1,7 +1,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
-local dados = require("dados")
+local mydata = require("mydata")
 
 function showGameOver()
   fadeTransition = transition.to(gameOver,{time=600, alpha=1,onComplete=showStart})
@@ -28,6 +28,7 @@ function scene:create( event )
   groundSpeed = 10
   backgroundSize = display.contentWidth
 
+  
   background1 = display.newImageRect('images/sky_dune001.png', display.contentWidth,550)
   background1.anchorX = 0
   background1.anchorY = 1
@@ -60,7 +61,7 @@ function scene:create( event )
   ground2.speed = groundSpeed
   sceneGroup:insert(ground2)
 
-  gameOver = display.newImageRect("images/GAMEOVER007.png",500,100)
+  gameOver = display.newImageRect("images/GAMEOVER007.png",400,100)
   gameOver.anchorX = 0.5
   gameOver.anchorY = 0.5
   gameOver.x = display.contentCenterX
@@ -71,12 +72,17 @@ function scene:create( event )
   restart = display.newImageRect("images/reload22.png", 191, 137)
   restart.anchorX = 0.5
   restart.anchorY = 1
-  restart.x = display.contentCenterX
-  restart.y = display.contentCenterY + 100
+  restart.x = display.contentCenterX 
+  restart.y = display.contentCenterY + 300
   restart.alpha = 0
   sceneGroup:insert(restart)
 
-  scoreText = display.newText(dados.score, display.contentCenterX, 90, native.systemFont, 60)
+  -- somaTexto = display.newText('' .. SomaTexto, display.contentCenterX + 200, display.contentCenterY + 240,  110)
+  -- somaTexto:setFillColor( 0, 0, 0 )
+  -- sceneGroup:insert(somaTexto)
+
+
+  scoreText = display.newText( '' .. mydata.score, display.contentCenterX, 90, native.systemFont, 100)
   score:setFillColor (0,0,0)
   score.alpha = 0
   sceneGroup:insert(scoreText)
@@ -121,4 +127,4 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
-return scene
+  return scene

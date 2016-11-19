@@ -1,9 +1,7 @@
-# Estágio 1 - Fa7
+# AVOANTE
 
-Projeto desenvolvido para disciplina de Estágio 1
-
-  - Jogo em Android utilizando Corona SDK + LUA
+Corona SDK Android Game
 
 
-
+Designed for the discipline : Supervised  Stage 1
 
