@@ -227,10 +227,10 @@ function scene:create( event )
   player:play()
   sceneGroup:insert(player)
 
-  score = display.newText( mydata.score, 1200, 40, native.systemFont, 100) -- Está no canto superior direito
+  score = display.newText( "Score:" .. mydata.score, 1000, 40, "Comic Sans MS", 80) -- Está no canto superior direito
   --(dados.score, 1200, 600, native.systemFont, 100) - Deixa no canto  inferior direito
   --(dados.score, 100, 600, native.systemFont, 100) - Deixa nno canto inferior Esquerdo
-  score:setFillColor (1,1,1)
+  score:setFillColor (0,0,0)
   score.alpha = 0
   sceneGroup:insert(score)
 

@@ -30,10 +30,9 @@ function scene:create( event )
     background.y = display.contentCenterY
     sceneGroup:insert(background)
 
-    local title = display.newImageRect ( "images/Sobre_tela.png", 800 , 400, native.systemFont, 100 )
-    title:setFillColor( 0 )
+    local title = display.newImageRect ( "images/Sobre.png", 1200 , 500)
     title.x = display.contentCenterX
-    title.y = display.contentCenterY -100
+    title.y = display.contentCenterY + 50
     sceneGroup:insert(title)
 
     -- local creditText = display.newImageRect ( "images/Sobre_tela.png", 600 , 600, native.systemFont, 100 )
@@ -47,14 +46,21 @@ function scene:create( event )
 
    local doneButton = widget.newButton{
     defaultFile="images/reload22.png",
-    width=254, height=160,
+    width=150, height=140,
     onEvent = handleButtonEvent  -- event listener function
   }
   doneButton.x = display.contentWidth *0.5
   doneButton.y = display.contentHeight - 120
   sceneGroup:insert(doneButton)
 
-  -- local restart = display.newImageRect("images/reload22.png", 191, 137)
+
+  -- restart = display.newImageRect("images/reload22.png", 191, 137)
+  -- restart.anchorX = 0.5
+  -- restart.anchorY = 1
+  -- restart.x = display.contentCenterX 
+  -- restart.y = display.contentCenterY + 300
+  -- restart.alpha = 0
+  -- -- local restart = display.newImageRect("images/reload22.png", 191, 137)
   --   restart.anchorX = 0.5
   --   restart.anchorY = 1
   --   restart.x = display.contentCenterX 

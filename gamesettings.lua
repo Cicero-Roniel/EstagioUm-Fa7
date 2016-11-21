@@ -112,7 +112,7 @@ function scene:create( event )
 
     local doneButton = widget.newButton{
     defaultFile="images/reload22.png",
-    width=254, height=160,
+    width=150, height=140,
     onEvent = handleButtonEvent  -- event listener function
   }
   doneButton.x = display.contentWidth *0.5

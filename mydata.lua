@@ -1,7 +1,3 @@
--- local M = {}
--- return M
-
-
 M = {}
 M.maxLevels = 20
 M.levelScore = 0

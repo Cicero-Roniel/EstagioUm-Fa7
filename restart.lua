@@ -2,6 +2,10 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 local mydata = require("mydata")
+-- local score = require ("score")
+
+-- local widget = require "widget"
+
 
 function showGameOver()
   fadeTransition = transition.to(gameOver,{time=600, alpha=1,onComplete=showStart})
@@ -9,15 +13,48 @@ end
 
 function showStart()
   startTransition = transition.to(restart,{time=200, alpha=1})
+
+  -- scoreTransition = transition.to(scoreText,{time 600, alpha=1})
+  -- scoreTextTransition = transition.to(bestText,{time 600, alpha=1})
 end
 
 function restartGame(event)
   if event.phase == "ended" then
+    -- saveScore()
     composer.gotoScene("game")
   end
 end
 
 
+local function handButtonEvent( event )
+
+  if event.phase == "ended" then
+    -- saveScore()
+    composer.gotoScene("menu")
+  end
+
+    -- if ( "ended" == event.phase ) then
+    --     composer.gotoScene("menu", { effect = "crossFade", time = 333 })
+    -- end
+end
+
+-- function loadScore( )
+--   local prevScore = score.load()
+--   if prevScore ~= nil then
+--     if prevScore <= mydata.score then
+--       score.set(mydata.score)
+--     else
+--       score.set(prevScore)
+--     end
+--   else
+--     score.set(mydata.score)
+--   end
+-- end
+
+-- function saveScore( )
+--   score.save()
+--   -- body
+-- end
 
 function scene:create( event )
   
@@ -69,25 +106,57 @@ function scene:create( event )
   gameOver.alpha = 0
   sceneGroup:insert(gameOver)
 
-  restart = display.newImageRect("images/reload22.png", 191, 137)
-  restart.anchorX = 0.5
+  restart = display.newImageRect("images/reload22.png", 150, 140)
+  restart.anchorX = 0.6
   restart.anchorY = 1
-  restart.x = display.contentCenterX 
-  restart.y = display.contentCenterY + 300
+  restart.x = display.contentCenterX + 200
+  restart.y = display.contentCenterY + 310
   restart.alpha = 0
   sceneGroup:insert(restart)
+
+
+  menuButton = display.newImageRect("images/Botao_men.png", 150, 140)
+  menuButton.anchorX = 0.6
+  menuButton.anchorY = 1
+  menuButton.x = display.contentCenterX - 150
+  menuButton.y = display.contentCenterY + 310
+  sceneGroup:insert(menuButton)
+
+  -- menuButton = widget.newButton{="images/botao_men.png",
+  --   width=150, height=140,
+  --   onEvent = handButtonEvent  -- event listener function
+  -- }
+  -- menuButton.x = display.contentWidth *0.4
+  -- menuButton.y = display.contentHeight - 120
+  -- sceneGroup:insert(menuButton)
+
 
   -- somaTexto = display.newText('' .. SomaTexto, display.contentCenterX + 200, display.contentCenterY + 240,  110)
   -- somaTexto:setFillColor( 0, 0, 0 )
   -- sceneGroup:insert(somaTexto)
 
 
-  scoreText = display.newText( '' .. mydata.score, display.contentCenterX, 90, native.systemFont, 100)
-  score:setFillColor (0,0,0)
+  scoreText = display.newText("Seu score é: " .. mydata.score   ,  display.contentCenterX , display.contentCenterY , "Comic Sans MS", 100)
+
+  scoreText:setFillColor (0,0,0)
   score.alpha = 0
   sceneGroup:insert(scoreText)
 
   
+  -- bestText = score.init({
+  --   fontsize = 50,
+  --   font = "Helvetica",
+  --   x = display.contentCenterX + 70,
+  --   y = display.contentCenterY + 85,
+  --   maxDigits = 8,
+  --   leadingZeros = false,
+  --   filename = "scorefile.txt"
+  --   })  
+  -- bestScore = score.get()
+  -- bestText.text = bestScore 
+  -- bestText.alpha = 0
+  -- bestText:setFillColor(0,0,0)
+  -- sceneGroup:insert(bestText)
 
 end
 
@@ -99,8 +168,11 @@ function scene:show( event )
    if ( phase == "will" ) then
    elseif ( phase == "did" ) then
     composer.removeScene("game")
+    composer.removeScene("menu")
     showGameOver()
     restart:addEventListener("touch", restartGame)
+    menuButton:addEventListener("touch", handButtonEvent)
+    
    end
 end
 
@@ -111,6 +183,7 @@ function scene:hide( event )
 
    if ( phase == "will" ) then
     restart:removeEventListener("touch", restartGame)
+    menuButton:removeEventListener("touch", handButtonEvent)
     transition.cancel(fadeTransition)
     transition.cancel(scoreTransition)
     transition.cancel(scoreTextTransition)
